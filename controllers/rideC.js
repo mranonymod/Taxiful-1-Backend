@@ -1,5 +1,4 @@
 const {Rider, Driver, Ride } = require('../models/Schemas');
-const Ride = require('[path to Ride model]');
 
 exports.rideStatus = async (req, res, next) => {
     try {
