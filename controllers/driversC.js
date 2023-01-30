@@ -64,7 +64,7 @@ exports.ridesData=async(req,res, next)=>{
 exports.rate=async(req,res, next)=>{
   try {
 const { riderId , review}=req.body
-    const rider await Rider.findById(riderId);
+    const rider = await Rider.findById(riderId);
     rider.reviews.push(review)
   }
   catch(error){res.status(400).send(error)}
