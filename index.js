@@ -10,7 +10,6 @@ app.use(cors());
 app.use(express.json());
 
 
-require("./routes/auth");
 const driver = require("./routes/driver");
 const rider = require("./routes/rider");
 const ride = require("./routes/ride");
