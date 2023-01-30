@@ -73,6 +73,7 @@ const RideSchema = new Schema({
   timestamp: Date,
   distance: Number,
   fare: Number,
+  sharing : Boolean ,
   offers : [OfferSchema],
   status: {
     type: String,
