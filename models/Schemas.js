@@ -98,7 +98,7 @@ const RideSchema = new Schema({
   offers : [OfferSchema],
   status: {
     type: String,
-    enum: ['Requested', 'Accepted', 'On-Ride', 'Completed'],
+    enum: ['Requested', 'Accepted','Waiting', 'On-Ride', 'Completed'],
     default: 'Requested'
   }
 });
