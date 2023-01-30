@@ -66,4 +66,13 @@ exports.acceptRide = async (req, res, next) => {
     res.status(400).send(error);
   }
 };
+
+exports.rate=async(req,res, next)=>{
+  try {
+const { driverId , review}=req.body
+    const driver= await Driver.findById(driverId);
+    driver.reviews.push(review)
+  }
+  catch(error){res.status(400).send(error)}
+};
   

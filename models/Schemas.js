@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const jwt = require('jsonwebtoken');
 
-const ReviewSchema = new Schema({
+const ReviewDriver = new Schema({
     rating: {
       type: Number,
       required: true,
@@ -17,7 +17,28 @@ const ReviewSchema = new Schema({
     },
     reviewer: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Rider',
+      required: true,
+    },
+  }, {
+    timestamps: true,
+  });
+
+const ReviewRider= new Schema({
+    rating: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 5,
+    },
+    review: {
+      type: String,
+      required: true,
+      maxlength: 500,
+    },
+    reviewer: {
+      type: Schema.Types.ObjectId,
+      ref: 'Driver',
       required: true,
     },
   }, {
@@ -49,7 +70,7 @@ const RiderSchema = new Schema({
   phone: String,
   password: String,
   location: GeoJSON,
-  reviews: [ReviewSchema],
+  reviews: [ReviewRider],
 });
 //RiderSchema.index({ location: '2dsphere' });
 
@@ -61,7 +82,7 @@ const DriverSchema = new Schema({
   location: GeoJSON,
   carModel: String,
   licensePlate: String,
-  reviews: [ReviewSchema],
+  reviews: [ReviewDriver],
 });
 //DriverSchema.index({ location: '2dsphere' });
 

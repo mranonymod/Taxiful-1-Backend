@@ -52,5 +52,22 @@ exports.offerRide = async (req, res, next) => {
   }
 };
 
+exports.ridesData=async(req,res, next)=>{
+  try {
+    const{ driverId , location}= req.body
+    const rides= await Ride.find().where(location).within(3000)
+    res.json(rides)
+  }
+  catch(error){res.status(400).send(error)}
+};
+
+exports.rate=async(req,res, next)=>{
+  try {
+const { riderId , review}=req.body
+    const rider await Rider.findById(riderId);
+    rider.reviews.push(review)
+  }
+  catch(error){res.status(400).send(error)}
+};
 
 
