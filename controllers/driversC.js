@@ -1,10 +1,9 @@
 const {Rider, Driver, Ride } = require('../models/Schemas');
-const driver=Driver
 
 exports.signup = async (req, res, next) => {
   try {
     const { name, email, password ,carModel , licensePlate} = req.body;
-    const driver = new driver({ name, email, password ,carModel , licensePlate});
+    const driver = new Driver({ name, email, password ,carModel , licensePlate});
     await driver.save();
     const token = await driver.generateAuthToken();
     res.status(201).send({ driver, token });
@@ -16,7 +15,7 @@ exports.signup = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const driver = await driver.findByCredentials(email, password);
+    const driver = await Driver.findByCredentials(email, password);
     const token = await driver.generateAuthToken();
     res.send({ driver, token });
   } catch (error) {
@@ -27,7 +26,7 @@ exports.login = async (req, res, next) => {
 exports.updateLocation = async (req, res, next) => {
   try {
     const { driverId, location } = req.body;
-    const driver = await driver.findById(driverId);
+    const driver = await Driver.findById(driverId);
     driver.location = location;
     await driver.save();
     res.send();

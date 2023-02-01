@@ -1,10 +1,9 @@
 const {Rider, Driver, Ride } = require('../models/Schemas');
-const rider=Rider
 
 exports.signup = async (req, res, next) => {
     try {
       const { name, email, password } = req.body;
-      const rider = new rider({ name, email, password });
+      const rider = new Rider({ name, email, password });
       await rider.save();
       const token = await rider.generateAuthToken();
       res.status(201).send({ rider, token });
@@ -15,11 +14,15 @@ exports.signup = async (req, res, next) => {
   
   exports.login = async (req, res, next) => {
     try {
+      console.log(req.body)
       const { email, password } = req.body;
-      const rider = await rider.findByCredentials(email, password);
+      const rider = await Rider.findOne({email : email , password : password});
+      console.log("here",rider)
       const token = await rider.generateAuthToken();
+      console.log(token)
       res.send({ rider, token });
     } catch (error) {
+      console.log(error)
       res.status(400).send(error);
     }
   };
@@ -27,7 +30,7 @@ exports.signup = async (req, res, next) => {
   exports.updateLocation = async (req, res, next) => {
     try {
       const { riderId, location } = req.body;
-      const rider = await rider.findById(riderId);
+      const rider = await Rider.findById(riderId);
       rider.location = location;
       await rider.save();
       res.send();
