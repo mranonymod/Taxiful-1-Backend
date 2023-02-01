@@ -103,11 +103,11 @@ const RideSchema = new Schema({
   }
 });
 
-RiderSchema.methods.generateAuthToken = function() {
+RiderSchema.methods.generateAuthToken = async function() {
     const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET);
     return token;
   };
-DriverSchema.methods.generateAuthToken = function() {
+DriverSchema.methods.generateAuthToken = async function() {
       const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET);
       return token;
     };
