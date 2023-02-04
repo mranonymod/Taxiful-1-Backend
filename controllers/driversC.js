@@ -69,4 +69,13 @@ const { riderId , review}=req.body
   catch(error){res.status(400).send(error)}
 };
 
+exports.fetchDrivers=async(req,res,next)=>{
+  try{
+    const {location }=req.body
+    const drivers =await Driver.find().where(location).within(3000)
+    res.json({drivers})
+  }
+  catch(error){res.status(400).send(error)}
+}
+
 

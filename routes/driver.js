@@ -9,5 +9,6 @@ router.get('/rides-data', controller.ridesData);
 router.post('/offer-ride', controller.offerRide);
 router.post('/rate', controller.rate);
 router.post('/location', controller.updateLocation);
+router.post('/fetch-drivers',controller.fetchDrivers)
 
 module.exports = router;
