@@ -91,6 +91,7 @@ const RideSchema = new Schema({
   driver: { type: Schema.Types.ObjectId, ref: 'Driver' },
   startLocation: GeoJSON,
   endLocation: GeoJSON,
+  currentLocation : GeoJSON,
   timestamp: Date,
   distance: Number,
   fare: Number,
