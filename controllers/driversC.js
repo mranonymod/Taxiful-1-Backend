@@ -54,7 +54,18 @@ exports.offerRide = async (req, res, next) => {
 exports.ridesData=async(req,res, next)=>{
   try {
     const{ driverId , location}= req.body
-    const rides= await Ride.find().where(location).within(3000)
+    const rides= await Ride.find({
+      location :{
+       $near :{
+        $geometry :{
+          type : "Point",
+          coordinates : location.coordinates
+        },
+        $maxDistance : 500
+       }
+
+      }
+    })
     res.json(rides)
   }
   catch(error){res.status(400).send(error)}
@@ -70,9 +81,23 @@ const { riderId , review}=req.body
 };
 
 exports.fetchDrivers=async(req,res,next)=>{
+  console.log('driver location fetch')
+  console.log(req.body)
   try{
     const {location }=req.body
-    const drivers =await Driver.find().where(location).within(3000)
+
+    const drivers =await Driver.find({
+      location :{
+       $near :{
+        $geometry :{
+          type : "Point",
+          coordinates : location.coordinates
+        },
+        $maxDistance : 3000
+       }
+
+      }
+    })
     res.json({drivers})
   }
   catch(error){res.status(400).send(error)}
