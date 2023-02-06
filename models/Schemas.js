@@ -60,7 +60,7 @@ const GeoJSON = new Schema({
   },
   coordinates: {
     type: [Number],
-    index: '2dsphere'
+    //index: '2dsphere'
   }
 });
 
@@ -69,7 +69,10 @@ const RiderSchema = new Schema({
   email: String,
   phone: String,
   password: String,
-  location: GeoJSON,
+  location: {
+    type : GeoJSON,
+    index : '2dsphere'
+  },
   reviews: [ReviewRider],
 });
 //RiderSchema.index({ location: '2dsphere' });
@@ -79,7 +82,10 @@ const DriverSchema = new Schema({
   email: String,
   phone: String,
   password: String,
-  location: GeoJSON,
+  location: {
+    type : GeoJSON,
+    index : '2dsphere'
+  },
   carModel: String,
   licensePlate: String,
   reviews: [ReviewDriver],
@@ -91,7 +97,10 @@ const RideSchema = new Schema({
   driver: { type: Schema.Types.ObjectId, ref: 'Driver' },
   startLocation: GeoJSON,
   endLocation: GeoJSON,
-  currentLocation : GeoJSON,
+  currentLocation : {
+    type : GeoJSON,
+    index : '2dsphere'
+  },
   timestamp: Date,
   distance: Number,
   fare: Number,
