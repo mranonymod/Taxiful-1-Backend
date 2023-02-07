@@ -101,17 +101,18 @@ const RideSchema = new Schema({
     type : GeoJSON,
     index : '2dsphere'
   },
-  timestamp: Date,
+
   distance: Number,
   fare: Number,
-  sharing : Boolean ,
+  mode : String ,
   offers : [OfferSchema],
   status: {
     type: String,
-    enum: ['Requested', 'Accepted','Waiting', 'On-Ride', 'Completed'],
+    enum: ['Requested', 'Accepted','Waiting', 'On-Ride', 'Completed','Cancelled'],
     default: 'Requested'
   }
-});
+  
+},{timestamps : true});
 
 RiderSchema.methods.generateAuthToken = async function() {
     const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET);

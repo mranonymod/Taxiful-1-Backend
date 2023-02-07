@@ -17,7 +17,6 @@ exports.signup = async (req, res, next) => {
       console.log(req.body)
       const { email, password } = req.body;
       const rider = await Rider.findOne({email : email , password : password});
-      console.log("here",rider)
       const token = await rider.generateAuthToken();
       console.log(token)
       res.send({ rider, token });
@@ -28,6 +27,8 @@ exports.signup = async (req, res, next) => {
   };
   
   exports.updateLocation = async (req, res, next) => {
+    console.log('rider location update')
+    console.log(req.body)
     try {
       const { riderId, location } = req.body;
       const rider = await Rider.findById(riderId);
@@ -41,12 +42,15 @@ exports.signup = async (req, res, next) => {
 
   exports.requestRide = async (req, res, next) => {
     try {
-      const { riderId, startLocation, endLocation } = req.body;
+      const { riderId, startLocation, endLocation ,currentLocation,distance,mode} = req.body;
       const ride = new Ride({
-        riderId,
-        startLocation,
-        endLocation,
-        status: 'pending'
+        riderId: riderId,
+        startLocation : startLocation,
+        endLocation: endLocation,
+        currentLocation:currentLocation,
+        distance:distance ,
+        mode:mode, 
+        status: 'Requested'
       });
       await ride.save();
       res.send({ ride });
