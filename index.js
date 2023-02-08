@@ -13,6 +13,7 @@ app.use(express.json());
 const driver = require("./routes/driver");
 const rider = require("./routes/rider");
 const ride = require("./routes/ride");
+const hotspot = require("./routes/hotspot");
 
 const db = require("./config/db");
 
@@ -23,6 +24,7 @@ const fn = () => console.log("listening");
 app.use("/api/driver",driver);
 app.use("/api/rider", rider);
 app.use("/api/ride", ride);
+app.use("/api/hotspot", hotspot);
 
 
 app.listen(process.env.PORT || 5000, fn);

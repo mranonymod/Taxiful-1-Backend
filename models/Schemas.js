@@ -64,6 +64,17 @@ const GeoJSON = new Schema({
   }
 });
 
+const HotspotSchema = new Schema({
+  name : String,
+  location : {
+    type : GeoJSON,
+    index : '2dsphere'
+  },
+  votes : {
+    type : Number,
+  default : 1}
+})
+
 const RiderSchema = new Schema({
   name: String,
   email: String,
@@ -126,5 +137,6 @@ DriverSchema.methods.generateAuthToken = async function() {
 const Rider = mongoose.model('Rider', RiderSchema);
 const Driver = mongoose.model('Driver', DriverSchema);
 const Ride = mongoose.model('Ride', RideSchema);
+const Hotspots = mongoose.model('Hotspots', HotspotSchema);
 
-module.exports = { Rider, Driver, Ride };
+module.exports = { Rider, Driver, Ride , Hotspots};
