@@ -1,9 +1,15 @@
-const {Rider, Driver, Ride } = require('../models/Schemas');
+const { Rider, Driver, Ride } = require("../models/Schemas");
 
 exports.signup = async (req, res, next) => {
   try {
-    const { name, email, password ,carModel , licensePlate} = req.body;
-    const driver = new Driver({ name, email, password ,carModel , licensePlate});
+    const { name, email, password, carModel, licensePlate } = req.body;
+    const driver = new Driver({
+      name,
+      email,
+      password,
+      carModel,
+      licensePlate,
+    });
     await driver.save();
     const token = await driver.generateAuthToken();
     res.status(201).send({ driver, token });
@@ -37,12 +43,10 @@ exports.updateLocation = async (req, res, next) => {
 
 exports.offerRide = async (req, res, next) => {
   try {
-    const { driverId, rideId ,fare , distance} = req.body;
+    const { driverId, rideId, fare, distance } = req.body;
     const ride = await Ride.findById(rideId);
-    offerX={driver : driversId,
-    fare : fare,
-  distance:distance}
-    ride.offers.push(offerX)
+    offerX = { driver: driversId, fare: fare, distance: distance };
+    ride.offers.push(offerX);
     //ride.status = 'accepted';
     await ride.save();
     res.send({ ride });
@@ -51,56 +55,55 @@ exports.offerRide = async (req, res, next) => {
   }
 };
 
-exports.ridesData=async(req,res, next)=>{
+exports.ridesData = async (req, res, next) => {
   try {
-    const{ driverId , location}= req.body
-    const rides= await Ride.find({
-      location :{
-       $near :{
-        $geometry :{
-          type : "Point",
-          coordinates : location.coordinates
+    const { driverId, location } = req.body;
+    const rides = await Ride.find({
+      location: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: location.coordinates,
+          },
+          $maxDistance: 500,
         },
-        $maxDistance : 500
-       }
-
-      }
-    })
-    res.json(rides)
+      },
+    });
+    res.json(rides);
+  } catch (error) {
+    res.status(400).send(error);
   }
-  catch(error){res.status(400).send(error)}
 };
 
-exports.rate=async(req,res, next)=>{
+exports.rate = async (req, res, next) => {
   try {
-const { riderId , review}=req.body
+    const { riderId, review } = req.body;
     const rider = await Rider.findById(riderId);
-    rider.reviews.push(review)
+    rider.reviews.push(review);
+  } catch (error) {
+    res.status(400).send(error);
   }
-  catch(error){res.status(400).send(error)}
 };
 
-exports.fetchDrivers=async(req,res,next)=>{
-  console.log('driver location fetch')
-  console.log(req.body)
-  try{
-    const {location }=req.body
+exports.fetchDrivers = async (req, res, next) => {
+  console.log("driver location fetch");
+  //console.log(req.body)
+  try {
+    const { location } = req.body;
 
-    const drivers =await Driver.find({
-      location :{
-       $near :{
-        $geometry :{
-          type : "Point",
-          coordinates : location.coordinates
+    const drivers = await Driver.find({
+      location: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: location.coordinates,
+          },
+          $maxDistance: 3000,
         },
-        $maxDistance : 3000
-       }
-
-      }
-    })
-    res.json({drivers})
+      },
+    });
+    res.json({ drivers });
+  } catch (error) {
+    res.status(400).send(error);
   }
-  catch(error){res.status(400).send(error)}
-}
-
-
+};
