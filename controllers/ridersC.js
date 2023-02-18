@@ -86,7 +86,7 @@ const { driverId , review}=req.body
 exports.accessShared=async(req,res,next)=>{
   try{
     const { location }=req.body
-    const rides=await Ride.find({sharing : 1 }).where(location).within(500)
+    const rides=await Ride.find({mode : 1 }).where(location).within(500)
     res.json(rides)
   }
   catch(error){res.status(400).send(error)}
