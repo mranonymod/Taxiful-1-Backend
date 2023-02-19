@@ -21,7 +21,7 @@ exports.signup = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const driver = await Driver.findByCredentials(email, password);
+    const driver = await Driver.findOne({ email: email, password: password });
     const token = await driver.generateAuthToken();
     res.send({ driver, token });
   } catch (error) {
@@ -30,6 +30,8 @@ exports.login = async (req, res, next) => {
 };
 
 exports.updateLocation = async (req, res, next) => {
+  console.log("driver location update");
+  //console.log(req.body);
   try {
     const { driverId, location } = req.body;
     const driver = await Driver.findById(driverId);
@@ -40,12 +42,11 @@ exports.updateLocation = async (req, res, next) => {
     res.status(400).send(error);
   }
 };
-
 exports.offerRide = async (req, res, next) => {
   try {
     const { driverId, rideId, fare, distance } = req.body;
     const ride = await Ride.findById(rideId);
-    offerX = { driver: driversId, fare: fare, distance: distance };
+    offerX = { driver: driverId, fare: fare, distance: distance };
     ride.offers.push(offerX);
     //ride.status = 'accepted';
     await ride.save();
@@ -56,16 +57,17 @@ exports.offerRide = async (req, res, next) => {
 };
 
 exports.ridesData = async (req, res, next) => {
+  console.log("rides data", req.body);
   try {
-    const { driverId, location } = req.body;
+    const { location } = req.body;
     const rides = await Ride.find({
-      location: {
+      startLocation: {
         $near: {
           $geometry: {
             type: "Point",
             coordinates: location.coordinates,
           },
-          $maxDistance: 500,
+          $maxDistance: 1000,
         },
       },
     });

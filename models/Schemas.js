@@ -117,7 +117,10 @@ const RideSchema = new Schema(
   {
     rider: { type: Schema.Types.ObjectId, ref: "Rider" },
     driver: { type: Schema.Types.ObjectId, ref: "Driver" },
-    startLocation: GeoJSON,
+    startLocation: {
+      type: GeoJSON,
+      index: "2dsphere",
+    },
     endLocation: GeoJSON,
     currentLocation: {
       type: GeoJSON,
