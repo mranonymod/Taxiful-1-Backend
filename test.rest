@@ -26,3 +26,12 @@ Content-Type: application/json
 {
     "coordinates" :[ 72.9660338, 19.164748 ]}
 }
+
+###
+POST http://localhost:5000/api/driver/rides-data 
+Content-Type: application/json
+
+{ "location": 
+{
+    "coordinates" :[ 72.9660338, 19.164748 ]}
+}
