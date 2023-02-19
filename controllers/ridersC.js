@@ -50,6 +50,7 @@ exports.requestRide = async (req, res, next) => {
       currentLocation,
       distance,
       mode,
+      fare,
     } = req.body;
     const ride = new Ride({
       riderId: riderId,
@@ -58,6 +59,7 @@ exports.requestRide = async (req, res, next) => {
       currentLocation: currentLocation,
       distance: distance,
       mode: mode,
+      fare: fare,
       status: "Requested",
     });
     await ride.save();
