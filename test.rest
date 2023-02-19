@@ -1,0 +1,28 @@
+### 
+POST http://localhost:5000/api/rider/login 
+Content-Type: application/json
+
+{ "email" : "test123@gmail.com",
+"password" : "Test123@"}
+
+###
+POST http://localhost:5000/api/driver/fetch-drivers 
+Content-Type: application/json
+
+{ "location": 
+{
+    "coordinates" :[ 72.9660338, 19.164748 ]}
+}
+
+###
+GET https://maps.googleapis.com/maps/api/directions/json?origin=place_id:ChIJA4D_CvK45zsRWTZrGK5NKhY&destination=place_id:ChIJJ1vXdxi55zsRpTypIEb-jNg&departure_time=1676712994745&key=AIzaSyBgnDUSbpEJJh-WUl3UJj7_O4Pe8tep0mE
+Content-Type: application/json
+
+###
+POST http://localhost:5000/api/hotspot/fetch 
+Content-Type: application/json
+
+{ "location": 
+{
+    "coordinates" :[ 72.9660338, 19.164748 ]}
+}
