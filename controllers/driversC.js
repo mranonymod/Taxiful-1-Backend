@@ -31,7 +31,7 @@ exports.login = async (req, res, next) => {
 
 exports.updateLocation = async (req, res, next) => {
   console.log("driver location update");
-  //console.log(req.body);
+  console.log(req.body);
   try {
     const { driverId, location } = req.body;
     const driver = await Driver.findById(driverId);
