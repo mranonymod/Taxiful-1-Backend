@@ -28,7 +28,7 @@ exports.login = async (req, res, next) => {
 
 exports.updateLocation = async (req, res, next) => {
   console.log("rider location update");
-  console.log(req.body);
+  //console.log(req.body);
   try {
     const { riderId, location } = req.body;
     const rider = await Rider.findById(riderId);
