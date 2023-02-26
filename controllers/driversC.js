@@ -31,7 +31,7 @@ exports.login = async (req, res, next) => {
 
 exports.updateLocation = async (req, res, next) => {
   console.log("driver location update");
-  console.log(req.body);
+  //console.log(req.body);
   try {
     const { driverId, location } = req.body;
     const driver = await Driver.findById(driverId);
@@ -43,10 +43,11 @@ exports.updateLocation = async (req, res, next) => {
   }
 };
 exports.offerRide = async (req, res, next) => {
+  console.log(req.body);
   try {
-    const { driverId, rideId, fare, distance } = req.body;
+    const { driverId, rideId, duration } = req.body;
     const ride = await Ride.findById(rideId);
-    offerX = { driver: driverId, fare: fare, distance: distance };
+    offerX = { driver: driverId, duration: duration };
     ride.offers.push(offerX);
     //ride.status = 'accepted';
     await ride.save();
@@ -57,7 +58,7 @@ exports.offerRide = async (req, res, next) => {
 };
 
 exports.ridesData = async (req, res, next) => {
-  console.log("rides data", req.body);
+  console.log("rides data fetched");
   try {
     const { location } = req.body;
     const rides = await Ride.find({
