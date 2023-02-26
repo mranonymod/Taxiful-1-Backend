@@ -54,8 +54,8 @@ const ReviewRider = new Schema(
 const OfferSchema = new Schema(
   {
     driver: { type: Schema.Types.ObjectId, ref: "Driver" },
-    fare: Number,
-    distance: Number,
+    //fare: Number,
+    duration: Number,
   },
   {
     timestamps: true,
