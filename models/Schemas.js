@@ -80,8 +80,8 @@ const HotspotSchema = new Schema({
     index: "2dsphere",
   },
   votes: {
-    type: Number,
-    default: 1,
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Rider",
   },
 });
 

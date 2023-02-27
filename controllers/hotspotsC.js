@@ -1,13 +1,14 @@
 const { Rider, Driver, Ride, Hotspots } = require("../models/Schemas");
 
 exports.addHotspot = async (req, res, next) => {
-  console.log("add");
-  console.log(req.body);
+  console.log("add hotspot");
+  //console.log(req.body);
   try {
     const hotspot = req.body;
     const hotspots = new Hotspots({
       name: hotspot.name,
       location: hotspot.location,
+      votes: [hotspot.userId],
     });
     await hotspots.save();
     res.send({ hotspots });
@@ -17,7 +18,7 @@ exports.addHotspot = async (req, res, next) => {
 };
 
 exports.fetchHotspot = async (req, res, next) => {
-  console.log("fetch");
+  console.log("fetch hotspot");
   console.log(req.body);
   try {
     const { coordinates } = req.body;
@@ -40,10 +41,29 @@ exports.fetchHotspot = async (req, res, next) => {
 };
 
 exports.voteHotspot = async (req, res, next) => {
+  console.log("vote hotspot");
   try {
-    const { hotspotId } = req.body;
+    const { hotspotId, userId } = req.body;
     const hotspots = await Hotspots.findById(hotspotId);
-    hotspots.votes = hotspots.votes + 1;
+
+    if (hotspots.votes.includes(userId)) {
+      return res.status(400).json({ message: "Already upvoted" });
+    }
+
+    hotspots.votes.push(userId);
+    await hotspots.save();
+    res.send({ hotspots });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+exports.removeVote = async (req, res, next) => {
+  console.log("remove hotspot");
+  try {
+    const { hotspotId, userId } = req.body;
+    const hotspots = await Hotspots.findById(hotspotId);
+    hotspots.votes.pull(userId);
     await hotspots.save();
     res.send({ hotspots });
   } catch (error) {
