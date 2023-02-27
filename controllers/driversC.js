@@ -43,11 +43,12 @@ exports.updateLocation = async (req, res, next) => {
   }
 };
 exports.offerRide = async (req, res, next) => {
+  console.log("RIDE OFFEREDS");
   console.log(req.body);
   try {
-    const { driverId, rideId, duration } = req.body;
+    const { driver, rideId, duration } = req.body;
     const ride = await Ride.findById(rideId);
-    offerX = { driver: driverId, duration: duration };
+    offerX = { driver: driver, duration: duration };
     ride.offers.push(offerX);
     //ride.status = 'accepted';
     await ride.save();
@@ -106,6 +107,18 @@ exports.fetchDrivers = async (req, res, next) => {
       },
     });
     res.json({ drivers });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+exports.driverDetails = async (req, res, next) => {
+  console.log("driver detail fetch");
+  //console.log(req.body);
+  try {
+    const { driverId } = req.body;
+    const driver = await Driver.findById(driverId);
+    res.send({ driver });
   } catch (error) {
     res.status(400).send(error);
   }
