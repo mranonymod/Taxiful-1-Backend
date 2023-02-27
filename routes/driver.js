@@ -9,5 +9,6 @@ router.post("/offer-ride", controller.offerRide);
 router.post("/rate", controller.rate);
 router.post("/location", controller.updateLocation);
 router.post("/fetch-drivers", controller.fetchDrivers);
+router.post("/details", controller.driverDetails);
 
 module.exports = router;
