@@ -71,11 +71,11 @@ exports.requestRide = async (req, res, next) => {
 
 exports.acceptRide = async (req, res, next) => {
   try {
-    const { driverId, rideId, fare, distance } = req.body;
+    const { driverId, rideId } = req.body;
     const ride = await Ride.findById(rideId);
-    ride.driverId = driverId;
+    ride.driver = driverId;
     ride.fare = fare;
-    ride.status = "accepted";
+    ride.status = "Accepted";
     await ride.save();
     res.send({ ride });
   } catch (error) {
