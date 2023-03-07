@@ -44,7 +44,7 @@ exports.requestRide = async (req, res, next) => {
   console.log(req.body);
   try {
     const {
-      riderId,
+      rider,
       startLocation,
       endLocation,
       currentLocation,
@@ -53,7 +53,7 @@ exports.requestRide = async (req, res, next) => {
       fare,
     } = req.body;
     const ride = new Ride({
-      riderId: riderId,
+      rider: rider,
       startLocation: startLocation,
       endLocation: endLocation,
       currentLocation: currentLocation,
