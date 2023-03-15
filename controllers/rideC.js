@@ -23,8 +23,9 @@ exports.endRide = async (req, res, next) => {
 };
 
 exports.rideDetails = async (req, res, next) => {
+  console.log("single ride detail fetch");
   try {
-    const { rideId } = req.params;
+    const { rideId } = req.body;
     const ride = await Ride.findById(rideId);
     res.send(ride);
   } catch (error) {
