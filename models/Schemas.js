@@ -113,15 +113,26 @@ const DriverSchema = new Schema({
 });
 //DriverSchema.index({ location: '2dsphere' });
 
+const passSchema = new Schema({
+  rider: { type: Schema.Types.ObjectId, ref: "Rider" },
+  distance: Number,
+  duration: Number,
+});
+
 const RideSchema = new Schema(
   {
     rider: { type: Schema.Types.ObjectId, ref: "Rider" },
     driver: { type: Schema.Types.ObjectId, ref: "Driver" },
+    passengers: [passSchema],
+    waypoints: [GeoJSON],
     startLocation: {
       type: GeoJSON,
       index: "2dsphere",
     },
-    endLocation: GeoJSON,
+    endLocation: {
+      type: GeoJSON,
+      index: "2dsphere",
+    },
     currentLocation: {
       type: GeoJSON,
       index: "2dsphere",
