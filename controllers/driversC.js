@@ -114,11 +114,41 @@ exports.fetchDrivers = async (req, res, next) => {
 
 exports.driverDetails = async (req, res, next) => {
   console.log("driver detail fetch");
-  //console.log(req.body);
+  console.log(req.body);
   try {
     const { driverId } = req.body;
     const driver = await Driver.findById(driverId);
     res.send({ driver });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+exports.accessSharedDriv = async (req, res, next) => {
+  try {
+    const { location, destination } = req.body;
+    const rides = await Ride.find({
+      mode: "Carpool",
+      endLocation: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: destination.coordinates,
+          },
+          $maxDistance: 500,
+        },
+      },
+      currentLocation: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: location.coordinates,
+          },
+          $maxDistance: 4000,
+        },
+      },
+    });
+    res.json(rides);
   } catch (error) {
     res.status(400).send(error);
   }

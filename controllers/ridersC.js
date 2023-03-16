@@ -28,7 +28,6 @@ exports.login = async (req, res, next) => {
 
 exports.updateLocation = async (req, res, next) => {
   console.log("rider location update");
-  //console.log(req.body);
   try {
     const { riderId, location } = req.body;
     const rider = await Rider.findById(riderId);
@@ -54,6 +53,7 @@ exports.requestRide = async (req, res, next) => {
     } = req.body;
     const ride = new Ride({
       rider: rider,
+      passengers: [{ rider: rider }],
       startLocation: startLocation,
       endLocation: endLocation,
       currentLocation: currentLocation,
@@ -74,7 +74,6 @@ exports.acceptRide = async (req, res, next) => {
     const { driverId, rideId } = req.body;
     const ride = await Ride.findById(rideId);
     ride.driver = driverId;
-    ride.fare = fare;
     ride.status = "Accepted";
     await ride.save();
     res.send({ ride });
@@ -93,10 +92,30 @@ exports.rate = async (req, res, next) => {
   }
 };
 
-exports.accessShared = async (req, res, next) => {
+exports.accessSharedPass = async (req, res, next) => {
   try {
-    const { location } = req.body;
-    const rides = await Ride.find({ mode: 1 }).where(location).within(500);
+    const { location, destination } = req.body;
+    const rides = await Ride.find({
+      mode: "Carpool",
+      endLocation: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: destination.coordinates,
+          },
+          $maxDistance: 500,
+        },
+      },
+      currentLocation: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: location.coordinates,
+          },
+          $maxDistance: 4000,
+        },
+      },
+    });
     res.json(rides);
   } catch (error) {
     res.status(400).send(error);
