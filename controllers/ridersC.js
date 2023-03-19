@@ -70,13 +70,27 @@ exports.requestRide = async (req, res, next) => {
 };
 
 exports.acceptRide = async (req, res, next) => {
+  console.log("Driver assigned RIDE accepted");
   try {
     const { driverId, rideId } = req.body;
     const ride = await Ride.findById(rideId);
+    const driver = await Driver.findById(driverId);
     ride.driver = driverId;
     ride.status = "Accepted";
     await ride.save();
-    res.send({ ride });
+    res.send({ ride, driver });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+exports.continueRide = async (req, res, next) => {
+  console.log(" CONTINUE WITH OLD RIDE");
+  try {
+    const { rideId } = req.body;
+    const ride = await Ride.findById(rideId);
+    const driver = await Driver.findById(ride.driver);
+    res.send({ ride, driver });
   } catch (error) {
     res.status(400).send(error);
   }
