@@ -147,6 +147,7 @@ const RideSchema = new Schema(
       type: String,
       enum: [
         "Requested",
+        "Offered",
         "Accepted",
         "Waiting",
         "On-Ride",
