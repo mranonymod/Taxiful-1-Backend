@@ -12,5 +12,6 @@ router.post("/continue-ride", controller.continueRide);
 // Rating and feedback
 router.post("/rate", controller.rate);
 router.post("/location", controller.updateLocation);
+router.post("/details", controller.userDetails);
 
 module.exports = router;
