@@ -50,7 +50,7 @@ exports.offerRide = async (req, res, next) => {
     const ride = await Ride.findById(rideId);
     offerX = { driver: driver, duration: duration };
     ride.offers.push(offerX);
-    //ride.status = 'accepted';
+    ride.status = "Offered";
     await ride.save();
     res.send({ ride });
   } catch (error) {
@@ -72,6 +72,7 @@ exports.ridesData = async (req, res, next) => {
           $maxDistance: 1000,
         },
       },
+      $or: [{ status: "Requested" }, { status: "Offered" }],
     });
     res.json(rides);
   } catch (error) {
