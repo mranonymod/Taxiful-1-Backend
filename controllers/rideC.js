@@ -37,7 +37,19 @@ exports.userRides = async (req, res, next) => {
   //console.log(req.body);
   try {
     const { riderId } = req.body;
-    const rides = await Ride.find({ rider: riderId });
+    const rides = await Ride.find({ passenger: { rider: [riderId] } });
+    res.send(rides);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+exports.driverRides = async (req, res, next) => {
+  console.log("drivers rides fetch(offered and accepted)");
+  //console.log(req.body);
+  try {
+    const { driverId } = req.body;
+    const rides = await Ride.find({ driver: driverId });
     res.send(rides);
   } catch (error) {
     res.status(400).send(error);
