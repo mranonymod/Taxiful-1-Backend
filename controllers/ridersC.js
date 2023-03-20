@@ -135,3 +135,13 @@ exports.accessSharedPass = async (req, res, next) => {
     res.status(400).send(error);
   }
 };
+
+exports.userDetails = async (req, res, next) => {
+  try {
+    const { riderId } = req.body;
+    const rider = await Rider.findById(riderId);
+    res.send({ rider });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
