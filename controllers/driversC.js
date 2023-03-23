@@ -126,9 +126,11 @@ exports.driverDetails = async (req, res, next) => {
 };
 
 exports.accessSharedDriv = async (req, res, next) => {
+  console.log("pooler searched");
   try {
-    const { location, destination } = req.body;
-    const rides = await Ride.find({
+    const { rideId, location, destination } = req.body;
+    const ride1 = await Ride.find({
+      _id: { $ne: rideId },
       mode: "Carpool",
       endLocation: {
         $near: {
@@ -139,6 +141,19 @@ exports.accessSharedDriv = async (req, res, next) => {
           $maxDistance: 500,
         },
       },
+    });
+    //console.log(ride1);
+    let id1 = [];
+    for (let i of ride1) {
+      id1.push(i._id);
+    }
+    console.log(id1);
+    const ride2 = await Ride.find({
+      $and: [
+        { _id: id1 }, //]
+        { _id: { $ne: rideId } },
+      ],
+      mode: "Carpool",
       currentLocation: {
         $near: {
           $geometry: {
@@ -149,7 +164,18 @@ exports.accessSharedDriv = async (req, res, next) => {
         },
       },
     });
-    res.json(rides);
+
+    // let intersectionResult = [];
+
+    // for (let i of ride1) {
+    //   for (let j of ride2) {
+    //     console.log(i._id.toString(), j._id.toString());
+    //     if (i._id.toString() == j._id.toString()) {
+    //       intersectionResult.push(i);
+    //     }
+    //   }
+    // }
+    res.json(ride2);
   } catch (error) {
     res.status(400).send(error);
   }
