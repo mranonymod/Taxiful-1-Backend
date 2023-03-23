@@ -7,5 +7,6 @@ router.post("/ride-details", controller.rideDetails);
 router.post("/end-ride", controller.endRide);
 router.post("/user-rides", controller.userRides);
 router.post("/fetch-driver-rides", controller.driverRides);
+router.post("/location", controller.rideLocation);
 //router.post('/process-payment', controller.processPayment);
 module.exports = router;

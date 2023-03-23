@@ -21,6 +21,17 @@ exports.endRide = async (req, res, next) => {
     res.status(400).send(error);
   }
 };
+exports.rideLocation = async (req, res, next) => {
+  console.log("single ride detail fetch");
+  try {
+    const { rideId, driverId, location } = req.body;
+    const ride = await Ride.findById(rideId);
+    ride.currentLocation = location;
+    await ride.save();
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
 
 exports.rideDetails = async (req, res, next) => {
   console.log("single ride detail fetch");
