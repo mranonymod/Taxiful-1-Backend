@@ -10,5 +10,6 @@ router.post("/rate", controller.rate);
 router.post("/location", controller.updateLocation);
 router.post("/fetch-drivers", controller.fetchDrivers);
 router.post("/details", controller.driverDetails);
+router.post("/poolerSearch", controller.accessSharedDriv);
 
 module.exports = router;
