@@ -115,10 +115,20 @@ const DriverSchema = new Schema({
 
 const passSchema = new Schema({
   rider: { type: Schema.Types.ObjectId, ref: "Rider" },
-  distance: Number,
-  duration: Number,
+  fare: { type: Number, default: 0 },
+  distance: { type: Number, default: 0 },
+  duration: { type: Number, default: 0 },
 });
 
+const counterSchema = new Schema({
+  riders: {
+    type: [Schema.Types.ObjectId],
+    ref: "Rider",
+  },
+  fare: { type: Number, default: 0 },
+  distance: { type: Number, default: 0 },
+  duration: { type: Number, default: 0 },
+});
 const RideSchema = new Schema(
   {
     rider: { type: Schema.Types.ObjectId, ref: "Rider" },
@@ -129,10 +139,12 @@ const RideSchema = new Schema(
       type: GeoJSON,
       index: "2dsphere",
     },
+    startAddress: String,
     endLocation: {
       type: GeoJSON,
       index: "2dsphere",
     },
+    endAddress: String,
     currentLocation: {
       type: GeoJSON,
       index: "2dsphere",
@@ -141,6 +153,7 @@ const RideSchema = new Schema(
     distance: Number,
     duration: Number,
     fare: Number,
+    //fareSplit: [counterSchema],
     mode: String,
     offers: [OfferSchema],
     status: {

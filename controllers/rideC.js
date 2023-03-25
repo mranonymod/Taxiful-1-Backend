@@ -21,6 +21,7 @@ exports.endRide = async (req, res, next) => {
     res.status(400).send(error);
   }
 };
+
 exports.rideLocation = async (req, res, next) => {
   console.log("single ride detail fetch");
   try {
@@ -63,6 +64,30 @@ exports.driverRides = async (req, res, next) => {
     const rides = await Ride.find({ driver: driverId });
     res.send(rides);
   } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+exports.addPooler = async (req, res, next) => {
+  console.log("adding pooler");
+  try {
+    const { ride, waypoints } = req.body;
+    console.log(req.body.waypoints);
+    const rid = waypoints[0];
+    const { pass, dd } = rid;
+    const ride1 = await Ride.findById(ride._id);
+    for (i of ride1.passengers) {
+      i.distance += dd.distance;
+      i.duration += dd.duration;
+    }
+    ride1.waypoints.push(pass.startLocation);
+    ride1.passengers.push(pass.rider);
+
+    await ride1.save();
+    const ride2 = await Ride.findByIdAndRemove(pass._id);
+    //await ride2.save();
+  } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 };

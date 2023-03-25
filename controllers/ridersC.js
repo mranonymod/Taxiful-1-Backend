@@ -47,6 +47,8 @@ exports.requestRide = async (req, res, next) => {
       startLocation,
       endLocation,
       currentLocation,
+      startAddress,
+      endAddress,
       distance,
       mode,
       fare,
@@ -61,6 +63,8 @@ exports.requestRide = async (req, res, next) => {
       mode: mode,
       fare: fare,
       status: "Requested",
+      startAddress: startAddress,
+      endAddress: endAddress,
     });
     await ride.save();
     res.send({ ride });
