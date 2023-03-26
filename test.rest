@@ -35,3 +35,40 @@ Content-Type: application/json
 {
     "coordinates" :[ 72.9660338, 19.164748 ]}
 }
+
+###
+POST http://localhost:5000/api/ride/fetch-driver-rides
+Content-Type: application/json
+
+{ "driverId" : "63dfbc2d4006f4359fb2fd95"
+}
+
+###
+POST http://localhost:5000/api/driver/rides-data
+Content-Type: application/json
+
+{ "driverId" : "63dfbc2d4006f4359fb2fd95",
+ "location": { "type": "Point", "coordinates": [ 72.966012, 19.1647128 ]
+}
+}
+
+###
+POST http://localhost:5000/api/ride/user-rides
+Content-Type: application/json
+
+{
+   "riderId": "63d7e4647010bfd70a5fb142"
+}
+###
+POST http://localhost:5000/api/driver/poolerSearch 
+Content-Type: application/json
+
+{
+  "rideId": "6414150925a23261d113d976",
+  "location": { "type": "Point", "coordinates": [ 72.9660035, 19.1647107 ] },
+  "destination": {
+    "type": "Point",
+    "coordinates": [ 72.97646, 19.185556 ],        
+    "_id": "6414150925a23261d113d979"
+  }
+}
