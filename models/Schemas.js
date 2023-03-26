@@ -120,21 +120,13 @@ const passSchema = new Schema({
   duration: { type: Number, default: 0 },
 });
 
-const counterSchema = new Schema({
-  riders: {
-    type: [Schema.Types.ObjectId],
-    ref: "Rider",
-  },
-  fare: { type: Number, default: 0 },
-  distance: { type: Number, default: 0 },
-  duration: { type: Number, default: 0 },
-});
 const RideSchema = new Schema(
   {
     rider: { type: Schema.Types.ObjectId, ref: "Rider" },
     driver: { type: Schema.Types.ObjectId, ref: "Driver" },
     passengers: [passSchema],
     waypoints: [GeoJSON],
+    waypointsAddress: [String],
     startLocation: {
       type: GeoJSON,
       index: "2dsphere",

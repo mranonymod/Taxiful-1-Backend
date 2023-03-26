@@ -50,6 +50,7 @@ exports.requestRide = async (req, res, next) => {
       startAddress,
       endAddress,
       distance,
+      duration,
       mode,
       fare,
     } = req.body;
@@ -60,6 +61,7 @@ exports.requestRide = async (req, res, next) => {
       endLocation: endLocation,
       currentLocation: currentLocation,
       distance: distance,
+      duration: duration,
       mode: mode,
       fare: fare,
       status: "Requested",
@@ -141,6 +143,7 @@ exports.accessSharedPass = async (req, res, next) => {
 };
 
 exports.userDetails = async (req, res, next) => {
+  console.log("passenger detail fetched");
   try {
     const { riderId } = req.body;
     const rider = await Rider.findById(riderId);

@@ -1,5 +1,5 @@
 const { Rider, Driver, Ride } = require("../models/Schemas");
-
+var mongoose = require("mongoose");
 exports.rideStatus = async (req, res, next) => {
   try {
     const { rideId } = req.params;
@@ -46,10 +46,13 @@ exports.rideDetails = async (req, res, next) => {
 };
 exports.userRides = async (req, res, next) => {
   console.log("user rides fetch");
-  //console.log(req.body);
   try {
     const { riderId } = req.body;
-    const rides = await Ride.find({ passenger: { rider: [riderId] } });
+    console.log(riderId);
+    const rides = await Ride.find({
+      "passengers.rider": mongoose.Types.ObjectId(riderId),
+    });
+    console.log(rides.length);
     res.send(rides);
   } catch (error) {
     res.status(400).send(error);
@@ -58,10 +61,20 @@ exports.userRides = async (req, res, next) => {
 
 exports.driverRides = async (req, res, next) => {
   console.log("drivers rides fetch(offered and accepted)");
-  //console.log(req.body);
+  console.log(req.body);
   try {
     const { driverId } = req.body;
-    const rides = await Ride.find({ driver: driverId });
+    const rides = await Ride.find({
+      $or: [
+        { driver: driverId },
+        {
+          "offers.driver": mongoose.Types.ObjectId(driverId),
+        },
+      ],
+    });
+    // const rides = await Ride.find({
+    //   "offers.driver": mongoose.Types.ObjectId(driverId),
+    // });
     res.send(rides);
   } catch (error) {
     res.status(400).send(error);
@@ -81,6 +94,7 @@ exports.addPooler = async (req, res, next) => {
       i.duration += dd.duration;
     }
     ride1.waypoints.push(pass.startLocation);
+    ride1.waypointsAddress.push(pass.startAddress);
     ride1.passengers.push(pass.rider);
 
     await ride1.save();

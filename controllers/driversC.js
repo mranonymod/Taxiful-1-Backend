@@ -60,8 +60,9 @@ exports.offerRide = async (req, res, next) => {
 
 exports.ridesData = async (req, res, next) => {
   console.log("rides data fetched");
+  console.log(req.body);
   try {
-    const { location } = req.body;
+    const { driverId, location } = req.body;
     const rides = await Ride.find({
       startLocation: {
         $near: {
@@ -72,7 +73,7 @@ exports.ridesData = async (req, res, next) => {
           $maxDistance: 1000,
         },
       },
-      $or: [{ status: "Requested" }, { status: "Offered" }],
+      status: "Requested",
     });
     res.json(rides);
   } catch (error) {
