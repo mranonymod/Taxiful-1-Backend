@@ -21,9 +21,14 @@ exports.endRide = async (req, res, next) => {
     res.status(400).send(error);
   }
 };
-
+/**
+ * @param rideId (string)
+ * @param driverId (string)
+ * @param location (GeoJSON)
+ * @description saves location of an ongoing ride from driver side
+ */
 exports.rideLocation = async (req, res, next) => {
-  console.log("single ride detail fetch");
+  console.log("ride location update");
   try {
     const { rideId, driverId, location } = req.body;
     const ride = await Ride.findById(rideId);
@@ -34,6 +39,11 @@ exports.rideLocation = async (req, res, next) => {
   }
 };
 
+/**
+ * @param rideId (string)
+ * @description  takes rideId and returns ride details
+ * @returns ride,  Single Ride
+ */
 exports.rideDetails = async (req, res, next) => {
   console.log("single ride detail fetch");
   try {
@@ -44,11 +54,17 @@ exports.rideDetails = async (req, res, next) => {
     res.status(400).send(error);
   }
 };
+
+/**
+ * @param riderId (string)
+ * @description  takes userId and returns all rides created or joined(Carpooled) by user
+ * @returns An array of rides
+ */
 exports.userRides = async (req, res, next) => {
   console.log("user rides fetch");
   try {
     const { riderId } = req.body;
-    console.log(riderId);
+    //console.log(riderId);
     const rides = await Ride.find({
       "passengers.rider": mongoose.Types.ObjectId(riderId),
     });
@@ -58,7 +74,11 @@ exports.userRides = async (req, res, next) => {
     res.status(400).send(error);
   }
 };
-
+/**
+ * @param driverId (string)
+ * @description  takes driverId and returns all rides offered or accepted by driver
+ * @returns An array of rides
+ */
 exports.driverRides = async (req, res, next) => {
   console.log("drivers rides fetch(offered and accepted)");
   console.log(req.body);
@@ -81,6 +101,13 @@ exports.driverRides = async (req, res, next) => {
   }
 };
 
+/**
+ * @param ride the original carpooling ride request
+ * @param waypoints.pass the ride request of the other passenger being onboarded
+ * @param waypoints.dd distance , duration traveled from previous waypoint/startLocation to new detour point
+ * @param waypoints.new the updated distance and duration of the ride
+ * @description onboards new passengers in carpooling
+ */
 exports.addPooler = async (req, res, next) => {
   console.log("adding pooler");
   try {

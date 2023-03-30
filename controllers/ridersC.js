@@ -39,6 +39,11 @@ exports.updateLocation = async (req, res, next) => {
   }
 };
 
+/**
+ * @param ride parameters required for ride creation
+ * @description ride request creation by customer
+ * @returns /{ride} An object consisting of ride
+ */
 exports.requestRide = async (req, res, next) => {
   console.log(req.body);
   try {
@@ -75,6 +80,12 @@ exports.requestRide = async (req, res, next) => {
   }
 };
 
+/**
+ * @param driverId (string)
+ * @param rideId (string)
+ * @description driver is assigned to a ride after offer selection by customer
+ * @returns /{ride,driver} An object consisting of ride and driver
+ */
 exports.acceptRide = async (req, res, next) => {
   console.log("Driver assigned RIDE accepted");
   try {
@@ -90,6 +101,11 @@ exports.acceptRide = async (req, res, next) => {
   }
 };
 
+/**
+ * @param rideId (string)
+ * @description  takes rideId and returns ride details and driver details for an ongoing ride
+ * @returns /{ride,driver} An object consisting of ride and driver
+ */
 exports.continueRide = async (req, res, next) => {
   console.log(" CONTINUE WITH OLD RIDE");
   try {
