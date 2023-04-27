@@ -1,18 +1,29 @@
 const { Rider, Driver, Ride } = require("../models/Schemas");
 
 exports.signup = async (req, res, next) => {
+  console.log("driver signup request  ", req.body);
   try {
-    const { name, email, password, carModel, licensePlate } = req.body;
+    const {
+      name,
+      email,
+      phone,
+      password,
+      carModel,
+      licensePlate,
+      drivingLicense,
+    } = req.body;
     const driver = new Driver({
       name,
       email,
       password,
+      phone,
       carModel,
       licensePlate,
+      drivingLicense,
     });
     await driver.save();
-    const token = await driver.generateAuthToken();
-    res.status(201).send({ driver, token });
+    // const token = await driver.generateAuthToken();
+    res.status(200); //.send({ driver, token });
   } catch (error) {
     res.status(400).send(error);
   }

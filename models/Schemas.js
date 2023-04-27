@@ -109,6 +109,7 @@ const DriverSchema = new Schema({
   },
   carModel: String,
   licensePlate: String,
+  drivingLicense: String,
   reviews: [ReviewDriver],
 });
 //DriverSchema.index({ location: '2dsphere' });

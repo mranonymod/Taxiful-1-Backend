@@ -2,11 +2,12 @@ const { Rider, Driver, Ride } = require("../models/Schemas");
 
 exports.signup = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
-    const rider = new Rider({ name, email, password });
+    console.log("signup request  ", req.body);
+    const { name, email, password, phone } = req.body;
+    const rider = new Rider({ name, email, password, phone });
     await rider.save();
     const token = await rider.generateAuthToken();
-    res.status(201).send({ rider, token });
+    res.status(200); //.send({ rider, token });
   } catch (error) {
     res.status(400).send(error);
   }
