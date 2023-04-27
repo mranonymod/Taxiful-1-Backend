@@ -86,3 +86,5 @@ Content-Type: application/json
 
 { "riderId": "63d7e4647010bfd70a5fb142"
 }
+
+POST 

@@ -11,13 +11,27 @@ exports.rideStatus = async (req, res, next) => {
 };
 
 exports.endRide = async (req, res, next) => {
+  console.log("end ride request arrived");
   try {
-    const { rideId } = req.params;
-    const ride = await Ride.findById(rideId);
-    ride.status = "completed";
-    await ride.save();
-    res.send({ status: "completed" });
+    const { ride, dd } = req.body;
+    console.log(dd);
+    const ride1 = await Ride.findById(ride._id);
+    if (ride1.mode != "Carpool") {
+      ride1.status = "Completed";
+      await ride1.save();
+      res.send({ status: "completed" });
+    } else {
+      for (i of ride1.passengers) {
+        i.distance += dd.distance;
+        i.duration += dd.duration;
+        i.fare += (25 * dd.distance) / (1000 * ride1.passengers.length);
+      }
+      ride1.status = "Completed";
+      await ride1.save();
+      res.send(ride1);
+    }
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 };
@@ -108,22 +122,28 @@ exports.driverRides = async (req, res, next) => {
  * @param waypoints.new the updated distance and duration of the ride
  * @description onboards new passengers in carpooling
  */
+
 exports.addPooler = async (req, res, next) => {
   console.log("adding pooler");
   try {
-    const { ride, waypoints } = req.body;
-    console.log(req.body.waypoints);
+    const { ride, waypoints, new1 } = req.body;
+    console.log(req.body.new1);
     const rid = waypoints[0];
     const { pass, dd } = rid;
     const ride1 = await Ride.findById(ride._id);
+    var c = 1;
     for (i of ride1.passengers) {
       i.distance += dd.distance;
       i.duration += dd.duration;
+      i.fare += (25 * dd.distance) / (1000 * c);
+      c++;
     }
     ride1.waypoints.push(pass.startLocation);
     ride1.waypointsAddress.push(pass.startAddress);
     ride1.passengers.push(pass.rider);
-
+    ride1.distance = new1.distance;
+    ride1.duration = new1.duration;
+    ride1.fare = (25 * new1.distance) / 1000;
     await ride1.save();
     const ride2 = await Ride.findByIdAndRemove(pass._id);
     //await ride2.save();
