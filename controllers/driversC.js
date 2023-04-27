@@ -84,8 +84,10 @@ exports.ridesData = async (req, res, next) => {
           $maxDistance: 1000,
         },
       },
-      status: "Requested",
+      $or: [{ status: "Requested" }, { status: "Offered" }],
+      "offers.driver": { $nin : [ driverId]}
     });
+    console.log("works, ",rides.length);
     res.json(rides);
   } catch (error) {
     res.status(400).send(error);
@@ -93,10 +95,13 @@ exports.ridesData = async (req, res, next) => {
 };
 
 exports.rate = async (req, res, next) => {
+  console.log("review for driver from customer");
+  console.log(req.body);
   try {
-    const { riderId, review } = req.body;
-    const rider = await Rider.findById(riderId);
-    rider.reviews.push(review);
+    const { driverId, review } = req.body;
+    const driver = await Driver.findById(driverId);
+    driver.reviews.push(review);
+    await driver.save();
   } catch (error) {
     res.status(400).send(error);
   }
