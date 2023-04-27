@@ -77,8 +77,10 @@ Content-Type: application/json
 POST https://taxifulbackend-1-k1526105.deta.app/api/rider/login 
 Content-Type: application/json
 
-{ "email" : "test123@gmail.com",
-"password" : "Test123@"}
+{ 
+"email" : "test123@gmail.com",
+"password" : "Test123@"
+}
 
 ###
 POST https://taxifulbackend-1-k1526105.deta.app/api/ride/user-rides
@@ -87,4 +89,18 @@ Content-Type: application/json
 { "riderId": "63d7e4647010bfd70a5fb142"
 }
 
-POST 
+### 
+POST https://taxiful-backend-21ra.onrender.com/api/rider/login 
+Content-Type: application/json
+
+{ 
+"email" : "test123@gmail.com",
+"password" : "Test123@"
+}
+
+###
+POST https://txfulbackend-1-q8399439.deta.app/api/rider/login 
+Content-Type: application/json
+
+{ "email" : "test123@gmail.com",
+"password" : "Test123@"}
